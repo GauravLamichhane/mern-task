@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* small body adjustments kept from previous styles */
+html,
+body,
+#root {
+  height: 100%;
+}
+body {
+  @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100;
+}
+
+/* keep buttons accessible default look when not using Tailwind directly */
+button {
+  @apply rounded-md px-3 py-1.5 bg-transparent border border-transparent hover:border-indigo-400;
+}
