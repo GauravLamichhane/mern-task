@@ -12,6 +12,9 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import ChatPage from "./pages/ChatPage";
 
+// API base (backend) URL from Vite env; falls back to localhost:5000
+const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 // Restore token + user once at the top
 const savedToken = localStorage.getItem("token");
 const savedUser = localStorage.getItem("user");
@@ -82,7 +85,7 @@ function App() {
   // REGISTER
   const register = async () => {
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/register", {
+      const res = await axios.post(`${API}/api/auth/register`, {
         name,
         email,
         password,
@@ -112,7 +115,7 @@ function App() {
 
   const login = async () => {
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
+      const res = await axios.post(`${API}/api/auth/login`, {
         email,
         password,
       });
@@ -174,10 +177,7 @@ function App() {
       };
       if (profilePassword) updates.password = profilePassword;
 
-      const res = await axios.put(
-        `http://localhost:5000/api/auth/users/${user.id}`,
-        updates
-      );
+      const res = await axios.put(`${API}/api/auth/users/${user.id}`, updates);
 
       const updated = res.data;
 
@@ -217,15 +217,11 @@ function App() {
 
     const fetchData = async () => {
       try {
-        const res = await axios.get(
-          "http://localhost:5000/api/chat/messages?limit=200"
-        );
+        const res = await axios.get(`${API}/api/chat/messages?limit=200`);
 
         setMessages(res.data);
 
-        const statsRes = await axios.get(
-          "http://localhost:5000/api/chat/stats"
-        );
+        const statsRes = await axios.get(`${API}/api/chat/stats`);
         setTotalMessages(statsRes.data.totalMessages || 0);
         setTotalUsers(statsRes.data.totalUsers || 0);
       } catch (err) {
