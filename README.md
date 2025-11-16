@@ -1,82 +1,83 @@
-# MERN Socket Chat (local development)
+# MERN Chat Application
 
-This repository is a small MERN (MongoDB, Express, React, Node) chat project using Socket.IO for real-time messaging.
-
-This README shows how to set up and run the project locally on Windows (PowerShell examples).
+A real-time chat application built with MongoDB, Express.js, React, and Node.js using Socket.IO.
 
 ## Prerequisites
 
-- Node.js (v18+ recommended)
+- Node.js (v14+)
+- MongoDB
 - npm
-- MongoDB (local or hosted)
 
-## Repository layout
+## Project Structure
 
 ```
-.
 ├── backend/          # Express + Socket.IO server
 ├── frontend/         # React + Vite client
-├── .gitignore
 └── README.md
 ```
 
-## Environment files
+## Setup Instructions
 
-- `backend/.env.example` is provided. Copy it to `backend/.env` and update values before starting the backend.
-- You can add `frontend/.env` (or `frontend/.env.local`) to configure the frontend API/socket endpoints; an example is included at `frontend/.env.example`.
+### 1. Clone the Repository
 
-Example `backend/.env.example` (already in repo):
-
-```dotenv
-MONGO_URL =mongodb://localhost:27017/mern-socket
-JWT_SECRET = <your_jwt_secret_here>
-PORT = 5000
+```bash
+git clone <repository-url>
+cd <project-folder>
 ```
 
-Example `frontend/.env.example` (created in this repo):
+### 2. Backend Setup
 
-```env
+```bash
+cd backend
+npm install
+cp .env.example .env
+```
+
+Update `backend/.env` with your configuration:
+```
+MONGO_URL=mongodb://localhost:27017/mern-socket
+JWT_SECRET=your_jwt_secret
+PORT=5000
+```
+
+### 3. Frontend Setup
+
+```bash
+cd frontend
+npm install
+cp .env.example .env
+```
+
+Update `frontend/.env`:
+```
 VITE_API_URL=http://localhost:5000
 VITE_SOCKET_URL=http://localhost:5000
 ```
 
-## Install & Run (PowerShell)
+### 4. Run the Application
 
-Open two PowerShell terminals (one for backend, one for frontend).
-
-Backend:
-
-```powershell
-cd 'C:\Users\dell\OneDrive\Desktop\Mern_task\backend'
-npm install
-Copy-Item .env.example .env
-# Edit backend\.env to set your MongoDB URL and JWT secret if necessary
+**Start Backend:**
+```bash
+cd backend
 npm run dev
 ```
 
-Frontend:
-
-```powershell
-cd 'C:\Users\dell\OneDrive\Desktop\Mern_task\frontend'
-npm install
-Copy-Item .env.example .env
-# Edit frontend\.env to set VITE_API_URL/VITE_SOCKET_URL if using different ports
+**Start Frontend:**
+```bash
+cd frontend
 npm run dev
 ```
 
-Open the URL printed by Vite (usually `http://localhost:5173`) in your browser.
+Access the application at `http://localhost:5173`
 
-## Notes about ports and env variables
+## Features
 
-- The frontend dev server (Vite) typically serves on port `5173` by default. The backend server typically runs on `PORT` from `backend/.env` (default `5000`).
-- `VITE_API_URL` should point to your backend (e.g. `http://localhost:5000`). The frontend has been updated to use `import.meta.env.VITE_API_URL` and `VITE_SOCKET_URL` so you can change endpoints without editing source files.
+- Real-time messaging with Socket.IO
+- User authentication with JWT
+- MongoDB database
+- Responsive React frontend
 
-## Troubleshooting
+## Notes
 
-- If Socket.IO events appear duplicated on refresh, ensure both frontend and backend are running and that `VITE_SOCKET_URL` points to the backend.
-- If you see CORS or connection errors, check backend logs and ensure `cors` is enabled in `backend/server.js`.
-
-## Next steps / improvements
-
-- Consider running backend and frontend with a single script using `concurrently`.
-- If you'd like, I can make the API base URL configurable throughout the app and add a small script to run both servers together.
+- Ensure MongoDB is running before starting the backend
+- Both servers must be running for the application to work properly
